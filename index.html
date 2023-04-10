@@ -1,0 +1,21 @@
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
+<script type="module">
+  main();
+  async function main() {
+    // Check if MetaMask is installed
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // MetaMask requires requesting permission to connect users accounts
+    await provider.send("eth_requestAccounts", []);
+    // Get the signer
+    const signer = provider.getSigner();
+    console.log(signer);
+    // prettier-ignore
+    const abi = [ { "inputs": [], "name": "getNum", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" } ]
+    // call contract on sepolia
+    const contract = new ethers.Contract("0x8207ba6852ee561f0786e2d876b1a20fef916e46", abi, signer);
+    // call getNum
+    const num = await contract.getNum();
+    console.log(parseInt(num._hex))
+  }
+</script>
